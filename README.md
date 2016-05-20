@@ -1,5 +1,4 @@
 # fact-checker
----------------
 
 ## Installation
 
