@@ -1,25 +1,10 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
-import nltk
-from nltk.corpus import mac_morpho
-import pickle
 import argparse
+import itertools
 
-tagger = pickle.load(open("etc/mac_morpho_aubt.pickle"))
-
-def tag(filename):
-    f = open(filename, "rU")
-    lines = f.readlines()
-    f.close()
-
-    tokens = []
-
-    for line in lines:
-        tokens += nltk.word_tokenize(line.decode("utf-8"))
-
-    print tagger.tag(tokens)
-
+from sentence_generator import SentenceGenerator
 
 if __name__=="__main__":
     parser = argparse.ArgumentParser()
@@ -27,4 +12,15 @@ if __name__=="__main__":
 
     args = parser.parse_args()
 
-    tag(args.filename)
+    f = open(args.filename, "rU")
+    lines = f.readlines()
+    f.close()
+
+    generators = []
+
+    for line in lines:
+        generators.append(SentenceGenerator(line.decode("utf-8")))
+
+    for generator in generators:
+        for i in range(5):
+            print generator.next()
